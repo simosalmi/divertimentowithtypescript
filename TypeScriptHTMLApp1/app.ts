@@ -29,11 +29,3 @@ class Maybe<T> {
         }
     }
 }
-
-var testMaybe = new Maybe<string>();
-console.log(testMaybe.firstOrDefaultIfEmpty('default'));
-// prints 'default'
-
-var testMaybe2 = new Maybe<string>('a real string');
-console.log(testMaybe2.firstOrDefaultIfEmpty('default'));
-// prints 'a real string'
