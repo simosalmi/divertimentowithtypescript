@@ -23,7 +23,7 @@ class Translator {
     constructor(service: Service) {
         this.service = service;
     }
-    translate(options: TranslatorOptions): string {
+    translate(options: TranslatorOptions): Maybe<string> {
         var serviceOptions: ServiceOptions = options;
 
         // Guard clauses
@@ -46,10 +46,10 @@ class Translator {
 
         if (serviceResult.err) {
             // log the error ...
-            return "";
+            return new Maybe<string>();
         }
         else {
-            return serviceResult.result;
+            return new Maybe<string>(serviceResult.result);
         }
     }
 }
@@ -76,11 +76,19 @@ var simpleService: Service = {
 };
 var simpleTranslator = new Translator(simpleService);
 
-console.log(simpleTranslator.translate({
-    sentence: "Hello, World!"
-}));
+var testOK = simpleTranslator.translate({
+        sentence: "Hello, World!"
+    }),
+    testErr = simpleTranslator.translate({
+        sentence: "Lorem ipsum..."
+    }),
+    testEmpty = simpleTranslator.translate({
+        sentence: ""
+    });
 
-console.log(simpleTranslator.translate({
-    sentence: "Lorem ipsum..."
-}));
+console.log(testOK.firstOrDefaultIfEmpty("<Error during translation>"));
+
+console.log(testErr.firstOrDefaultIfEmpty("<Error during translation>"));
+
+console.log(testEmpty.firstOrDefaultIfEmpty("<Error during translation>"));
 

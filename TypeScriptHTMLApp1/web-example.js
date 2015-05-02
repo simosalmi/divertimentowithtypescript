@@ -27,9 +27,9 @@ var Translator = (function () {
 
         if (serviceResult.err) {
             // log the error ...
-            return "";
+            return new Maybe();
         } else {
-            return serviceResult.result;
+            return new Maybe(serviceResult.result);
         }
     };
     return Translator;
@@ -57,11 +57,17 @@ var simpleService = {
 };
 var simpleTranslator = new Translator(simpleService);
 
-console.log(simpleTranslator.translate({
+var testOK = simpleTranslator.translate({
     sentence: "Hello, World!"
-}));
-
-console.log(simpleTranslator.translate({
+}), testErr = simpleTranslator.translate({
     sentence: "Lorem ipsum..."
-}));
+}), testEmpty = simpleTranslator.translate({
+    sentence: ""
+});
+
+console.log(testOK.firstOrDefaultIfEmpty("<Error during translation>"));
+
+console.log(testErr.firstOrDefaultIfEmpty("<Error during translation>"));
+
+console.log(testEmpty.firstOrDefaultIfEmpty("<Error during translation>"));
 //# sourceMappingURL=web-example.js.map
