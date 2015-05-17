@@ -1,2 +1,2 @@
 # typescriptexperiments
-Exercises and first steps with TypeScript
+Experiments I wrote while playing with TypeScript
